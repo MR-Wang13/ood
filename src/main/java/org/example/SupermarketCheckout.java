@@ -57,10 +57,8 @@ public class SupermarketCheckout {
     }
 
     public void onLinesService() {
-        List<CustomerExitInfo> exitingCustomers = new ArrayList<>();
 
         for (Map.Entry<Long, LinkedList<Customer>> entry : lines.entrySet()) {
-            Long lineNumber = entry.getKey();
             LinkedList<Customer> line = entry.getValue();
             if (!line.isEmpty()) {
                 Customer customer = line.peekFirst();
@@ -69,14 +67,9 @@ public class SupermarketCheckout {
                 if (remainItems<= 0) {
                     line.pollFirst();
                     customers.remove(customer.customerId);
-                    exitingCustomers.add(new CustomerExitInfo(lineNumber, customer.customerId));
+                    System.out.println(customer.customerId);
                 }
             }
-        }
-
-        Collections.sort(exitingCustomers);
-        for (CustomerExitInfo exitInfo : exitingCustomers) {
-            System.out.println(exitInfo.customerId);
         }
     }
 
@@ -104,20 +97,6 @@ public class SupermarketCheckout {
         }
     }
 
-    private static class CustomerExitInfo implements Comparable<CustomerExitInfo> {
-        long lineNumber;
-        long customerId;
-
-        public CustomerExitInfo(long lineNumber, long customerId) {
-            this.lineNumber = lineNumber;
-            this.customerId = customerId;
-        }
-
-        @Override
-        public int compareTo(CustomerExitInfo other) {
-            return Long.compare(this.lineNumber, other.lineNumber);
-        }
-    }
 
     public static class Main {
 
