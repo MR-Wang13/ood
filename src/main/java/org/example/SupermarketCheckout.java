@@ -17,7 +17,6 @@ public class SupermarketCheckout {
         Customer customer = new Customer(customerId, lineNumber, numItems,0);
         customers.put(customerId, customer);
 
-        // Add customer to the appropriate line
         lines.computeIfAbsent(lineNumber, k -> new LinkedList<>()).addLast(customer);
     }
 
