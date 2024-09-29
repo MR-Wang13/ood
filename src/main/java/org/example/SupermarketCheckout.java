@@ -23,16 +23,18 @@ public class SupermarketCheckout {
     public void onBasketChange(long customerId, long newNumItems) {
         Customer customer = customers.get(customerId);
         if (customer == null) return;
+        long origin = customer.numItems;
         customer.numItems = newNumItems;
         long remainItems = customer.numItems-customer.checkedItems;
         if (remainItems <= 0) {
             removeCustomerFromLine(customer);
             customers.remove(customerId);
             System.out.println(customerId);
-        }else {
+        } else if(origin<newNumItems) {
             removeCustomerFromLine(customer);
             lines.get(customer.lineNumber).addLast(customer);
         }
+
     }
 
     public void onLineService(long lineNumber, long numProcessedItems) {
